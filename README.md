@@ -45,16 +45,45 @@ browser fetch rules; use a local server.)
 Hosted with **GitHub Pages** from the `main` branch (root). Any static host
 (Netlify, Vercel, Cloudflare Pages) works too — just serve the folder.
 
+## Android app (offline APK)
+
+A native Android build wraps the deck with [Capacitor](https://capacitorjs.com/).
+It is **fully offline** (all cards and audio are bundled in the APK), **locked to
+landscape**, and runs **immersive full-screen** (status and navigation bars
+hidden). Domains and the theme switch live in a slide-in menu; the stage shows
+only the card and its controls with the card number.
+
+Download the ready-built APK from the repo's
+[**Releases**](../../releases) and install it (enable "install from unknown
+sources" when prompted).
+
+### Build it yourself
+
+Requires **JDK 21** (Android Studio's bundled JBR works) and the Android SDK.
+
+```bash
+npm install
+node scripts/sync-assets.mjs          # copy cards.json + audio/ into app/
+npx cap sync android
+cd android && ./gradlew assembleDebug  # -> app/build/outputs/apk/debug/app-debug.apk
+```
+
+The APK UI (`app/index.html`, `app/styles.css`, `app/app.js`) is separate from
+the web version at the repo root, which is left unchanged.
+
 ## Structure
 
 ```
-index.html              app shell
-styles.css              design system (teal on slate, light/dark)
-app.js                  flip / audio / autoplay / navigation
-cards.json              the 188 cards + audio paths
+index.html              web app shell (portrait, GitHub Pages)
+styles.css              web design system (teal on slate, light/dark)
+app.js                  web: flip / audio / autoplay / navigation
+cards.json              the 188 cards + audio paths (source of truth)
 audio/d1..d8/*.mp3       narrated question (-q) and answer (-a) clips
 manifest.webmanifest    PWA metadata
-sw.js                   offline service worker
+sw.js                   offline service worker (web)
+app/                    APK web assets (landscape + immersive UI)
+android/                Capacitor Android project
+scripts/sync-assets.mjs copies cards.json + audio/ into app/ for the APK
 ```
 
 ## Content
