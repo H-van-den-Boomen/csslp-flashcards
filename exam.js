@@ -156,10 +156,16 @@
         <div class="exam-track">${segs}</div>
       </div>
       <div class="exam-body">
-        <p class="exam-domain">Domain ${q.domainName}</p>
-        <p class="exam-q">${q.q}</p>
-        ${multi ? `<p class="exam-choose">Choose ${q.correct.size}.</p>` : ''}
-        <div class="exam-options">${opts}</div>
+        <div class="exam-qgrid">
+          <div class="exam-qcol">
+            <p class="exam-domain">Domain ${q.domainName}</p>
+            <p class="exam-q">${q.q}</p>
+            ${multi ? `<p class="exam-choose">Choose ${q.correct.size}.</p>` : ''}
+          </div>
+          <div class="exam-ocol">
+            <div class="exam-options">${opts}</div>
+          </div>
+        </div>
         ${feedback}
       </div>
       <div class="exam-foot">${footer}</div>`);
