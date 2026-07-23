@@ -1,12 +1,17 @@
-/* Offline cache for the CSSLP Flashcards app. App shell is precached; audio
-   is cached on first play (cache-first) so revisited cards work offline. */
-const VERSION = 'csslp-v1';
+/* Offline cache for the CSSLP Flashcards web app.
+   Strategy: audio is cache-first (big, immutable, keep offline once played);
+   everything else (HTML, JS, CSS, JSON) is network-first so new deploys show
+   immediately when online and still work offline from cache. */
+const VERSION = 'csslp-v2';
 const SHELL = [
   './',
   'index.html',
   'styles.css',
   'app.js',
+  'exam.js',
+  'exam.css',
   'cards.json',
+  'exams.json',
   'manifest.webmanifest',
   'icons/icon.svg',
 ];
@@ -26,17 +31,25 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const { request } = e;
   if (request.method !== 'GET') return;
-  e.respondWith(
-    caches.match(request).then((hit) => {
-      if (hit) return hit;
-      return fetch(request).then((res) => {
-        // Cache same-origin assets (audio, shell) as they are fetched.
-        if (res.ok && new URL(request.url).origin === self.location.origin) {
-          const copy = res.clone();
-          caches.open(VERSION).then((c) => c.put(request, copy));
-        }
+  const sameOrigin = new URL(request.url).origin === self.location.origin;
+  const isAudio = request.url.includes('/audio/');
+
+  if (isAudio) {
+    // Cache-first: audio never changes, avoid re-downloading.
+    e.respondWith(
+      caches.match(request).then((hit) => hit || fetch(request).then((res) => {
+        if (res.ok && sameOrigin) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(request, copy)); }
         return res;
-      }).catch(() => hit);
-    })
+      }))
+    );
+    return;
+  }
+
+  // Network-first for code/data/HTML: fresh when online, cached when offline.
+  e.respondWith(
+    fetch(request).then((res) => {
+      if (res.ok && sameOrigin) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(request, copy)); }
+      return res;
+    }).catch(() => caches.match(request).then((hit) => hit || caches.match('index.html')))
   );
 });
