@@ -10,7 +10,7 @@
     tabs: $('domainTabs'), domainName: $('domainName'),
     card: $('card'), front: $('frontText'), back: $('backText'),
     prev: $('prevBtn'), next: $('nextBtn'),
-    speak: $('speakBtn'), speakLabel: $('speakLabel'),
+    speak: $('speakBtn'),
     counter: $('counter'),
     shuffle: $('shuffleBtn'), auto: $('autoBtn'),
     theme: $('themeToggle'), themeLabel: $('themeLabel'), status: $('status'),
@@ -92,7 +92,7 @@
   // ── Card ──────────────────────────────────────────────────────────────
   function setFlipped(v) {
     flipped = v; el.card.classList.toggle('flipped', v);
-    el.speakLabel.textContent = v ? 'Play answer' : 'Play question';
+    el.speak.setAttribute('aria-label', v ? 'Play answer' : 'Play question');
   }
   function render() {
     const card = currentCard();
