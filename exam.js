@@ -281,12 +281,39 @@
     if (e.key === 'Escape') close();
   });
 
+  // ── Post-flashcards nudge ─────────────────────────────────────────────
+  // When every domain's flashcards have been seen (flagged by the flashcard
+  // app), offer a mock exam once. Dismissible and remembered.
+  function maybePrompt() {
+    try {
+      const allSeen = data.domains.every((d) => localStorage.getItem('csslp.fcseen.' + d.id) != null);
+      if (!allSeen || localStorage.getItem('csslp.mockprompt') != null) return;
+      const bar = document.createElement('div');
+      bar.className = 'exam-prompt';
+      bar.innerHTML = `<span>You've been through all the flashcards. Ready for a mock exam?</span>
+        <span class="exam-prompt-actions">
+          <button data-prompt-start class="exam-launch" type="button">Start mock</button>
+          <button data-prompt-dismiss class="exam-prompt-x" type="button" aria-label="Dismiss">&times;</button>
+        </span>`;
+      document.body.appendChild(bar);
+      bar.addEventListener('click', (e) => {
+        if (e.target.closest('[data-prompt-start]')) {
+          localStorage.setItem('csslp.mockprompt', 'done'); bar.remove();
+          document.body.classList.add('exam-open'); root.hidden = false; startMock();
+        } else if (e.target.closest('[data-prompt-dismiss]')) {
+          localStorage.setItem('csslp.mockprompt', 'dismissed'); bar.remove();
+        }
+      });
+    } catch { /* ignore */ }
+  }
+
   // ── Boot ──────────────────────────────────────────────────────────────
   async function boot() {
     try { data = await (await fetch('exams.json')).json(); }
     catch { return; }
     document.querySelectorAll('[data-exam-launch]').forEach((b) =>
       b.addEventListener('click', (e) => { e.preventDefault(); open(); }));
+    maybePrompt();
   }
   boot();
 })();

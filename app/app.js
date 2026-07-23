@@ -102,6 +102,7 @@
     el.prev.disabled = pos === 0;
     el.next.disabled = pos === order.length - 1;
     setStatus('');
+    if (pos === order.length - 1 && domain) store.set('fcseen.' + domain.id, 1);
   }
   function go(newPos, keepFlip) {
     pos = Math.max(0, Math.min(order.length - 1, newPos));

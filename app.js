@@ -116,6 +116,9 @@
     el.prev.disabled = pos === 0;
     el.next.disabled = pos === order.length - 1;
     setStatus('');
+    // Mark this domain's flashcards as seen once the last card is reached
+    // (used by exam.js to offer a mock exam when all domains are done).
+    if (pos === order.length - 1 && domain) store.set('fcseen.' + domain.id, 1);
   }
 
   function go(newPos, keepFlip) {
