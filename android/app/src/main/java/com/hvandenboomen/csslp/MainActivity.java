@@ -1,6 +1,7 @@
 package com.hvandenboomen.csslp;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -13,6 +14,8 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Keep the screen on while studying (no sleep/dim during a session).
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         enableImmersive();
     }
 
