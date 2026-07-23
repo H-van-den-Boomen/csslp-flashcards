@@ -10,6 +10,7 @@
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="icons/icon.svg" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="exam.css" />
 </head>
 <body>
   <header class="topbar">
@@ -17,9 +18,12 @@
       <span class="brand-mark" aria-hidden="true"></span>
       <span class="brand-text">CSSLP<span class="brand-sub">Flashcards</span></span>
     </div>
-    <button id="themeToggle" class="icon-btn" type="button" aria-label="Switch theme">
-      <span class="theme-icon"></span>
-    </button>
+    <div style="display:flex;align-items:center;gap:0.6rem">
+      <button class="exam-launch" data-exam-launch type="button">Exams</button>
+      <button id="themeToggle" class="icon-btn" type="button" aria-label="Switch theme">
+        <span class="theme-icon"></span>
+      </button>
+    </div>
   </header>
 
   <nav id="domainTabs" class="tabs" aria-label="Domains"></nav>
@@ -67,6 +71,9 @@
 
   <p id="status" class="status" role="status"></p>
 
+  <div id="examRoot" class="exam-root" hidden></div>
+
   <script src="app.js"></script>
+  <script src="exam.js"></script>
 </body>
 </html>

@@ -1,0 +1,99 @@
+{
+  "generated": "2026-07-23",
+  "passMark": 0.7,
+  "quiz": { "count": 10 },
+  "mock": { "count": 100, "minutes": 150 },
+  "domains": [
+    {
+      "id": "d1",
+      "num": 1,
+      "name": "Secure Software Concepts",
+      "pool": [
+        {
+          "q": "An auditor asks the team to prove that a specific engineer, and no one else, approved a production release last month. The team points to signed release records tied to that engineer's identity. Which security property does this MOST directly support?",
+          "options": ["Confidentiality", "Availability", "Non-repudiation", "Fault tolerance"],
+          "correct": [2],
+          "explanation": "Non-repudiation means an actor cannot credibly deny an action they performed. A record cryptographically bound to a unique identity provides that proof. Confidentiality and availability are unrelated to attributing an action, and fault tolerance is a resilience property.",
+          "tip": "\"Cannot deny having done it\" plus a signed, identity-bound record almost always points to non-repudiation."
+        },
+        {
+          "q": "A payroll service must keep running even if one data-center loses power. The team adds a second region with automatic failover. Which element of the CIA triad is this design PRIMARILY protecting?",
+          "options": ["Confidentiality", "Integrity", "Availability", "Non-repudiation"],
+          "correct": [2],
+          "explanation": "Redundancy and automatic failover keep the service reachable when a component fails, which is the definition of availability. It does not by itself protect against disclosure (confidentiality) or unauthorized modification (integrity).",
+          "tip": "Redundancy, failover, and backups are availability controls."
+        },
+        {
+          "q": "A developer proposes storing test data by copying the production customer database and changing names and card numbers to realistic but fake values, keeping the same format so the app still works. The originals cannot be recovered from the test copy. Which technique is described?",
+          "options": ["Tokenization with a secure vault", "Anonymization", "Masking (obfuscation)", "Full-disk encryption"],
+          "correct": [2],
+          "explanation": "Masking/obfuscation replaces sensitive values with realistic, format-preserving substitutes so non-production systems stay usable without exposing real data. Tokenization keeps a reversible mapping in a vault, and full-disk encryption protects data at rest without changing the values. Anonymization also removes identifiers, but the emphasis here on preserving realistic, usable test data is the hallmark of masking.",
+          "tip": "Format-preserving fake data for dev/test = masking/obfuscation; a reversible vault mapping = tokenization."
+        },
+        {
+          "q": "Which access control model enforces \"no read up, no write down\" using fixed labels the system assigns to both subjects and objects?",
+          "options": ["Discretionary access control (DAC)", "Role-based access control (RBAC)", "Mandatory access control (MAC)", "Attribute-based access control (ABAC)"],
+          "correct": [2],
+          "explanation": "MAC uses system-enforced labels and clearances; the Bell-LaPadula confidentiality rules (no read up, no write down) are classically implemented with MAC. DAC lets owners decide, RBAC bundles permissions into job roles, and ABAC evaluates attributes, none of which enforce fixed classification labels by default.",
+          "tip": "Fixed labels + clearances + no-read-up/no-write-down = MAC (Bell-LaPadula)."
+        },
+        {
+          "q": "A bank requires that issuing a large wire transfer needs one employee to initiate it and a different employee to approve it. Which principle does this BEST illustrate?",
+          "options": ["Least privilege", "Separation of duties", "Defense in depth", "Complete mediation"],
+          "correct": [1],
+          "explanation": "Separation of duties splits a sensitive task across two or more people so no single individual can complete it alone, reducing fraud risk. Least privilege limits how much access one person has; defense in depth is about layered controls; complete mediation is about checking every access.",
+          "tip": "Two different people required to finish one sensitive action = separation of duties."
+        },
+        {
+          "q": "During design review, a component is set so that if its authorization check throws an error, the request is denied rather than allowed through. Which principle is being applied?",
+          "options": ["Fail-safe defaults (fail secure)", "Economy of mechanism", "Open design", "Psychological acceptability"],
+          "correct": [0],
+          "explanation": "Fail-safe defaults mean the system denies by default and denies on failure, so an error results in no access rather than accidental access. Economy of mechanism is about simplicity, open design about not relying on secrecy, and psychological acceptability about usability.",
+          "tip": "\"On error/by default, deny\" = fail-safe defaults / fail secure."
+        },
+        {
+          "q": "A team is choosing an authentication approach and wants a design that is small and simple enough to be reviewed and verified, so they consolidate on a single well-vetted single sign-on service instead of many custom login flows. Which principle drives this choice?",
+          "options": ["Least common mechanism", "Economy of mechanism", "Defense in depth", "Separation of duties"],
+          "correct": [1],
+          "explanation": "Economy of mechanism favors simple, minimal designs that are easier to analyze and secure; consolidating to one vetted SSO reduces components and attack surface. Least common mechanism is about not sharing mechanisms between users, which is a different concern.",
+          "tip": "Keywords \"simple\" and \"minimal components\" point to economy of mechanism."
+        },
+        {
+          "q": "A reviewer argues that a cryptographic protocol should remain secure even if its full design is published and only the keys stay secret. Which principle is the reviewer invoking?",
+          "options": ["Security through obscurity", "Open design", "Least privilege", "Complete mediation"],
+          "correct": [1],
+          "explanation": "Open design (Kerckhoffs's principle) holds that security must not depend on the secrecy of the design, only on the secrecy of keys. Security through obscurity is the opposite and is considered weak on its own.",
+          "tip": "\"Secure even if the design is public\" = open design; relying on hidden design = security through obscurity."
+        },
+        {
+          "q": "A risk analyst calculates that a threat has a single loss expectancy (SLE) of $40,000 and is expected to occur about twice per year. What is the annualized loss expectancy (ALE)?",
+          "options": ["$20,000", "$40,000", "$80,000", "$160,000"],
+          "correct": [2],
+          "explanation": "ALE = SLE x ARO. With SLE = $40,000 and ARO = 2, ALE = $80,000. This figure is what justifies spending on a control (a control costing less than $80,000/year may be worthwhile).",
+          "tip": "Memorize SLE = AV x EF and ALE = SLE x ARO."
+        },
+        {
+          "q": "After applying controls, management reviews the risk that still remains and formally signs off that the organization will live with it. What is this remaining risk called?",
+          "options": ["Inherent risk", "Residual risk", "Transferred risk", "Total risk"],
+          "correct": [1],
+          "explanation": "Residual risk is what remains after controls are applied; management formally accepts it. Inherent risk is the risk before controls, and transferred risk is shifted to another party (e.g., via insurance).",
+          "tip": "Before controls = inherent; after controls = residual; residual is what gets accepted."
+        },
+        {
+          "q": "A startup buys cyber-insurance to cover losses from a potential breach while keeping the risky service running. Which risk response is this, and which other responses exist? (Choose the response used AND correctly labeled options — select all that are true.)",
+          "options": ["Buying insurance is risk transfer", "Shutting the service down would be risk avoidance", "Adding controls to reduce likelihood would be risk mitigation", "Buying insurance is risk avoidance"],
+          "correct": [0, 1, 2],
+          "explanation": "Insurance shifts financial impact to a third party, which is transfer (not avoidance). Stopping the risky activity entirely is avoidance, and applying controls to reduce likelihood or impact is mitigation. Acceptance (not listed) means knowingly taking no action.",
+          "tip": "The four responses: avoid, mitigate/reduce, transfer/share, accept. Insurance is the classic transfer example."
+        },
+        {
+          "q": "In a governance hierarchy, which document is the high-level, mandatory statement of management intent that other documents (standards, procedures, guidelines) support?",
+          "options": ["Standard", "Procedure", "Policy", "Guideline"],
+          "correct": [2],
+          "explanation": "A policy is the top-level mandatory statement of intent. Standards specify mandatory specifics, procedures give mandatory step-by-step instructions, and guidelines are recommended (not mandatory).",
+          "tip": "Policy = why/what (mandatory, high level); standard = specific mandatory rules; procedure = steps; guideline = optional advice."
+        }
+      ]
+    }
+  ]
+}

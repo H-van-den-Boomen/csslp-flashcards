@@ -11,6 +11,9 @@ node_modules/
 # at repo root). Run scripts/sync-assets.mjs to regenerate.
 app/audio/
 app/cards.json
+app/exams.json
+app/exam.js
+app/exam.css
 
 # Capacitor / Android build outputs
 android/app/src/main/assets/public/

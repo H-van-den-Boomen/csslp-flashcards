@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
   <title>CSSLP Flashcards</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="exam.css" />
 </head>
 <body>
   <!-- Floating menu trigger (domains + theme live inside the drawer) -->
@@ -21,6 +22,7 @@
       </div>
       <p class="drawer-label">Domain</p>
       <nav id="domainTabs" class="tabs" aria-label="Domains"></nav>
+      <button class="exam-launch block" data-exam-launch type="button">Practice exams</button>
       <div class="drawer-row">
         <span class="drawer-label">Theme</span>
         <button id="themeToggle" class="theme-btn" type="button" aria-label="Switch theme">
@@ -69,6 +71,9 @@
     </aside>
   </main>
 
+  <div id="examRoot" class="exam-root" hidden></div>
+
   <script src="app.js"></script>
+  <script src="exam.js"></script>
 </body>
 </html>

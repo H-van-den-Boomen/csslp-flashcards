@@ -12,4 +12,6 @@ const app = join(root, 'app');
 mkdirSync(app, { recursive: true });
 cpSync(join(root, 'cards.json'), join(app, 'cards.json'));
 cpSync(join(root, 'audio'), join(app, 'audio'), { recursive: true });
-console.log('Synced cards.json + audio/ into app/');
+// Shared exam engine + data (single source of truth at repo root).
+for (const f of ['exams.json', 'exam.js', 'exam.css']) cpSync(join(root, f), join(app, f));
+console.log('Synced cards.json + audio/ + exam files into app/');
